@@ -83,6 +83,35 @@ class ImageParser:
             self.wd.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             print(len(img_urls))
 
+    def mail_download(self, REQUEST):
+        # Ссылка на страницу гугла с картинками
+        req = REQUEST.replace(' ', '+')
+        search_url = f'https://go.mail.ru/search_images?fr=main&frm=main&q={req}&fm=1'
+        self.wd.get(search_url)
+        img_urls = []
+        while self.IMAGES_LIMIT > len(img_urls):
+            results = self.wd.find_elements_by_css_selector('img.Preview-image')
+            img_urls += results
+            self.wd.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            print(len(img_urls))
+
+        print(len(img_urls))
+        i = 0
+        for img in img_urls:
+            try:
+                img.click()
+                # sleep(1)
+                i += 1
+                image = self.wd.find_elements_by_css_selector('img.ImageViewer-image')
+                for lbl in range(len(image)):
+                    src = image[lbl].get_attribute('src')
+                    if src[:3] == 'htt':
+                        break
+                print(src)
+                self.images_urls.add(src)
+            except Exception:
+                continue
+
     def download_image(self, urls, path):
         name = 0
         for url in urls:
@@ -99,7 +128,10 @@ class ImageParser:
         for type in self.TYPES:
             path = self.IMAGE_PATH + type + '\\'
             print(path)
-            mkdir(path)
+            try:
+                mkdir(path)
+            except FileExistsError:
+                pass
             for request in self.config['types'][type]['requests']:
                 if 'google' in self.ENGINES:
                     self.google_download(request)
@@ -107,6 +139,8 @@ class ImageParser:
                     self.yandex_download(request)
                 if 'bing' in self.ENGINES:
                     self.bing_download(request)
+                if 'mail' in self.ENGINES:
+                    self.mail_download(request)
             self.download_image(self.images_urls, path)
             self.images_urls = set()
 
