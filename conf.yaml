@@ -1,6 +1,6 @@
-driver_path: C:\Home\Projects\CODE\CV projects\police\driver\chromedriver.exe
+driver_path: C:\Home\Projects\CODE\google_images_parser\driver\chromedriver.exe
 images_limit: 50
-images_path: C:\Home\Projects\CODE\CV projects\police\images\
+images_path: C:\Home\Projects\CODE\google_images_parser\images\
 types:
   police:
     requests: ['полицейский автомобиль россия', 'машина дпс']

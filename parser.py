@@ -4,11 +4,12 @@ from requests import get
 from selenium import webdriver
 import json
 from yaml import load
+from os import mkdir
 
 
-class ImageParser():
-    def __init__(self):
-        f = open('conf.yaml', 'r', encoding='utf-8')
+class ImageParser:
+    def __init__(self, file):
+        f = open(file, 'r', encoding='utf-8')
         self.config = load(f)
         print(self.config)
         DRIVER_PATH = self.config['driver_path']
@@ -97,6 +98,8 @@ class ImageParser():
     def parse(self):
         for type in self.TYPES:
             path = self.IMAGE_PATH + type + '\\'
+            print(path)
+            mkdir(path)
             for request in self.config['types'][type]['requests']:
                 if 'google' in self.ENGINES:
                     self.google_download(request)
@@ -107,5 +110,7 @@ class ImageParser():
             self.download_image(self.images_urls, path)
             self.images_urls = set()
 
-process = ImageParser()
+
+config_file = 'conf.yaml'
+process = ImageParser(config_file)
 process.parse()
