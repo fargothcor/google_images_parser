@@ -1,9 +1,12 @@
 driver_path: C:\Home\Projects\CODE\google_images_parser\driver\chromedriver.exe
+model_path: C:\\Home\\Projects\\CODE\\google_images_parser\\driver\\mask_rcnn_coco.h5
 images_limit: 50
 images_path: C:\Home\Projects\CODE\google_images_parser\images\
 types:
   police:
-    requests: ['полицейский автомобиль россия', 'машина дпс']
+    requests: ['полицейский автомобиль россия']
   medical:
     requests: ['скорая помощь россия']
-search_engines: ['yandex', 'google', 'bing']
+search_engines: ['mail']
+screens_limit: 10
+screens_path: C:\Home\Projects\CODE\google_images_parser\screenshots\
